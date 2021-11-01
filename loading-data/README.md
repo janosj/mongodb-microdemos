@@ -8,4 +8,5 @@ Use these data sets and scripts to demonstrate the various ways to load data int
 - CSV: A network data set from Kaggle (mongoimport)
 - Log Files: An Apache log file (loaded via Python script)
 - RDBMS: A basic data dump (3 tables, 3 CSV files) from a relational model (mongoimport)
+- XML: Convert to JSON and load into MongoDB
 

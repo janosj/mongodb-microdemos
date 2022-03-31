@@ -12,7 +12,8 @@ const port = 8081
 // More examples: locally installed test instances without access control enabled
 // const uri = `mongodb://myserver1:27021/?readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
 // const uri = `mongodb://sandbox1:27017`;
-const uri = `mongodb://localhost:27017`;
+// WARNING: using localhost here causes an error:
+const uri = `mongodb://myserver1:27017`;
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/web/index.html'));

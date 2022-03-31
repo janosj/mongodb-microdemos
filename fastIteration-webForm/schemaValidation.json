@@ -1,6 +1,0 @@
-{
-  $jsonSchema: {
-    required: [ 'approvedBy.lastName' ]
-  }
-}
-

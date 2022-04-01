@@ -170,12 +170,20 @@
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(obj)
-      }).then((response) => {
-        console.log("Response data:")
-        console.log(response);
+      }).then(function(response) {
+
         if (response.status == 200) {
           recordSuccess();
+        } else {
+          // Process error codes.
+          // Can be used to demonstrate schema validation.
+          // Server has to propagate a non-200 status as well as the error message content.
+          response.json().then(function(responseBody) {
+            console.log(responseBody);
+            alert(JSON.stringify(responseBody));
+          });
         }
+
       })
     }
 

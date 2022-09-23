@@ -1,0 +1,5 @@
+APP_NAME=node-demo-app
+TARGET_REGISTRY=quay.io/<yourRepo>
+IMAGE_NAME=$TARGET_REGISTRY/$APP_NAME
+IMAGE_TAG=latest
+

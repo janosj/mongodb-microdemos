@@ -1,0 +1,13 @@
+# If container fails to start:
+kubectl logs deployments/node-demo-app
+
+# Connect to container
+kubectl exec --stdin --tty deployment/node-demo-app -- /bin/bash
+
+# Deployment status
+kubectl get deployment node-demo-app
+
+# Delete
+kubectl delete deployment node-demo-app
+
+

@@ -1,30 +1,30 @@
-const { resolveCaa } = require('dns');
 const express = require('express')
-const path = require('path')
+const path = require('path');
+const { exit } = require('process');
 const app = express()
+
+// Reconfigured logging to write to console + file.
+// File logging is useful for troubleshooting with Kubernetes.
+var fs = require('fs');
+var util = require('util');
+var log_file = fs.createWriteStream('debug/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+console.log = function(d) {
+    log_file.write(util.format(d) + '\n');
+    log_stdout.write(util.format(d) + '\n');
+};
+
+uri = process.env.URI;
+if (uri) {
+    console.log(`Starting app with MONGODB URI = ${uri}`);
+} else {
+    console.log("WARNING! No database connection, MongoDB URI not provided.");
+    console.log("Usage: URI=<mdb-uri> node index.js");
+    console.log("");
+}
 
 // Note: uses 8081 to leave 8080 available for Ops Manager or anything else.
 const port = 8081
-
-// MONGODB CONNECT STRING
-// Example Atlas connect string. Put password in key.json file.
-// const credentials = require('./key.json');
-// const uri = `mongodb+srv://demo-user:${credentials.password}@atlas-cluster.mongodb.net/DEMO?retryWrites=true&w=majority`;
-// More examples: locally installed test instances without access control enabled
-// const uri = `mongodb://myserver1:27021/?readPreference=primary&appname=MongoDB%20Compass&ssl=false`;
-// const uri = `mongodb://sandbox1:27017`;
-// WARNING: using localhost here causes an error:
-const uri = `mongodb://myserver1:27017`;
-
-// Establish MDB connection on startup.
-const MongoClient = require('mongodb').MongoClient;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-    if(err){
-        console.log(err);
-        reject(err);
-    }
-});
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/web/index.html'));
@@ -48,19 +48,28 @@ function insertDocument(doc) {
 
     return new Promise(function (resolve, reject) {
 
-        //const collection = client.db("DEMO").collection("workflow");
-        //collection.insertOne(doc).then((result) => {
-        //    resolve(result);
-        //});
+        // Returned MDB connection to inside insertDocument.
+        // Had moved it previously to connect on startup.
+        // Putting it here allows connections to be re-established as needed.
+        const MongoClient = require('mongodb').MongoClient;
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        client.connect(err => {
+            if(err){
+                console.log(`ERROR connecting to MongoDB! MDB_URI is: ${uri}`);
+                console.log(err);
+                reject(err);
+            }
+        });
 
         // Updated to propagate errors.
         const collection = client.db("DEMO").collection("workflow");
         collection.insertOne(doc, (err, res) => {
             if (err) {
-                console.log('error', err);
+                console.log(err);
                 reject(err);
             } else {
-                console.log('\ninserted record', res.ops[0]);
+                console.log('\ninserted record');
+                console.log(res.ops[0]);
                 resolve(res.ops[0]);
             }
         });

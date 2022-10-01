@@ -78,14 +78,13 @@
               <p class="text-right">Records Submitted: <label id="recordsSubmitted">0</label></p>
             </div>
 
-
-
           </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
+  <!-- These are just for the aesthetic. -->
   <footer class="footer bg-light">
     <div class="container">
       <div class="row">
@@ -107,31 +106,11 @@
               <a href="/privacy.html">Privacy Policy</a>
             </li>
           </ul>
-          <p class="text-muted small mb-4 mb-lg-0">
-            &copy; MongoDB 2020. All Rights Reserved.
-            <br>
-            Looking for Schema Validation? Try this: <br>
-            { $jsonSchema: { required: [ 'approvedBy.lastName' ] } }
+          <p class="text-muted small mb-4 mb-lg-0">Looking for Schema Validation? Try this:
+            <p id="validator" class="text-muted small mb-4 mb-lg-0"></p>
+            <a href="" onclick="navigator.clipboard.writeText(validationRule);return false;">clipboard</a>
           </p>
-        </div>
-        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-          <ul class="list-inline mb-0">
-            <li class="list-inline-item mr-3">
-              <a href="https://linkedin.com/in/mlynn">
-                <i class="fab fa-linkedin fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item mr-3">
-              <a href="https://twitter.com/mlynn">
-                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="https://instagram.com/mlynnstagram">
-                <i class="fab fa-instagram fa-2x fa-fw"></i>
-              </a>
-            </li>
-          </ul>
+          <p class="text-muted small mb-4 mb-lg-0">&copy; MongoDB 2022. All Rights Reserved.</p>
         </div>
       </div>
     </div>
@@ -145,6 +124,8 @@
   <script>
 
     numRecords = 0;
+    validationRule = "{ $jsonSchema: { required: [ 'approvedBy.lastName' ] } }";
+    document.getElementById("validator").innerText = validationRule;
 
     function sendResponse() {
 
@@ -170,12 +151,20 @@
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(obj)
-      }).then((response) => {
-        console.log("Response data:")
-        console.log(response);
+      }).then(function(response) {
+
         if (response.status == 200) {
           recordSuccess();
+        } else {
+          // Process error codes.
+          // Can be used to demonstrate schema validation.
+          // Server has to propagate a non-200 status as well as the error message content.
+          response.json().then(function(responseBody) {
+            console.log(responseBody);
+            alert(JSON.stringify(responseBody));
+          });
         }
+
       })
     }
 

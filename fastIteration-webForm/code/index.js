@@ -16,10 +16,10 @@ console.log = function(d) {
 
 // Pick up the MongoDB URI as an environment variable.
 uri = process.env.URI;
-const MongoClient = require('mongodb').MongoClient;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 4000 });
 if (uri) {
-    console.log(`Starting app with MONGODB URI = ${uri}`);
+    // redact passwords.
+    var redacted = uri.replace(/:([a-zA-Z0-9_\.!-]+)@/, ":<redacted>@"); 
+    console.log(`Starting app with MONGODB URI = ${redacted}`);
 } else {
     console.log("WARNING! No database connection, MongoDB URI not provided.");
     console.log("Usage: URI=<mdb-uri> node index.js");
@@ -40,8 +40,8 @@ app.get('/', (request, response) => {
 
 app.post('/insertDocument', async (request, response) => {
 
-//    const MongoClient = require('mongodb').MongoClient;
-//    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 4000 });
+    const MongoClient = require('mongodb').MongoClient;
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 4000 });
     
     client.connect().then(
 

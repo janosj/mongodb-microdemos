@@ -1,0 +1,23 @@
+conn = Mongo();
+db = conn.getDB("DEMO");
+
+pid=ObjectId();
+rid=ObjectId();
+
+db.products.insertOne(
+{ 
+  _id : pid,
+  name : 'bar stool', 
+  manufacturer : 'Acme Corp',
+  color: 'brown',
+  last_10_reviews: [ 	 // array with references
+    { 
+      review_ID: rid,
+      // display info
+      user_id: 'sallymoe2',
+      display_text: 'I really loved this bar stool…'
+    }
+  ]
+}
+);
+

@@ -1,0 +1,20 @@
+conn = Mongo();
+db = conn.getDB("DEMO");
+
+newRid=ObjectId();
+
+oneProduct=db.products.findOne();
+thisOID=oneProduct._id;
+
+db.products.updateOne(
+  { "_id" : thisOID },
+  { "$push" : { 
+      "last_10_reviews" : {
+        "$each": [ { "review_ID": newRid,
+                   "user_id": "Some Other User",
+                   "display_text": "I did not like this bar stool." } ],
+        "$slice": -10 }
+      }
+  }
+);
+

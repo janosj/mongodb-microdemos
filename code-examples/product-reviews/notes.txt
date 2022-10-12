@@ -1,0 +1,38 @@
+This code is designed to accompany a Tech 101 presentation
+that illustrates the concept of referencing. 
+
+It consists of 2 collections: PRODUCTS and REVIEWS.
+The PRODUCTS collection is designed to incude the last 10 reviews.
+The REVIEWS collection is therefore seldom needed.
+
+A PRODUCT might look like this:
+{ 
+  _id : ObjectId('x74prjjjjjjjL2'),
+  name : 'bar stool', 
+  manufacturer : 'Acme Corp',
+  color: 'brown',  
+  last_10_reviews: [ 	 // array with references
+    { 
+      review_ID: ObjectID('Ae54jxxxxx7ti'),
+      // display info
+      user_id: 'sallymoe2', 
+      display_text: 'I really loved this bar stool…'
+    }
+    …
+  ]
+}
+
+A REVIEW might look like this:
+{ 
+  _id : ObjectId('Ae54jxxxxx7ti'), 
+  user_id: 'sallymoe2', 
+  display_text: 'I really loved …',
+  full_text: 'I really loved this bar stool. Had my doubts but it looks great.'
+}
+
+"insert-product.mql" can be executed within the Mongo shell:
+load("1-insert-product.mql")
+
+Reviews can be added one by one using the add-review.mql script.
+Hand edits may be necessary to discern between multiple reviews.
+

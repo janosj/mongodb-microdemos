@@ -6,11 +6,11 @@ Automatic failover occurs when a majority of voting members collectively identif
 
 <img src="images/HA-3-DCs.png" alt="HA across 3 data centers"/>
 
-If only two data centers are available, outside intervention is required to make the determination that a data center outage has occurred. Reconfiguration of the Replica Set will restore read/write operations in the surviving data center, as shown in the following diagram.
+If only two data centers are available, outside intervention is required to make the determination that a data center outage has occurred. Reconfiguration of the Replica Set will restore read/write operations in the surviving data center, as shown in the following diagram. In the scripts, this is **scenario 1**.
 
 <img src="images/basic-resiliency-2-DCs.png" alt="Basic resiliency across 2 data centers"/>
 
-Additional replicas can be added to provide greater resiliency in the event of an outage:
+Additional replicas can be added to provide greater resiliency in the event of an outage. In the scripts, this is **Scenario 2**.
 
 <img src="images/greater-resiliency-2-DCs.png" alt="Greater resiliency across 2 data centers"/>
 
@@ -22,16 +22,16 @@ The scripts provided in this folder can be used to simulate various architecture
 
 |Script|Purpose|
 |---|---|
-| 1-launchRS.sh | Launches a multi-node replica set on your local machine.
-| 2-checkRSstatus.sh | Connects to the local replica set and lists primary and secondaries.
-| 3-runInserts.sh | A node.js client that does continual inserts using a specified writeConcern.
-| 4-runQuery.sh | A node.js client that does continual queries using a specified readPreference.
-| 5-killMDBprocess.sh | Kills the specified Replica Set member.
-| 6-intervention.(3|5)node.sh | Reconfigures the surviving data center to elect a new Primary and resume normal operations.
-| 8-restoreRSmember.sh | Relaunches a previously killed Replica Set member.
-| restoreVotes.(3|5)node.sh | Restores the original vote configuration across the two Data Centers.
-| buildScenario.sh | Builds demo scenario 2 by launching a 5-node Replica Set with the corresponding vote and priority settings. (Note that building Scenario 1 is trivial and can be accomplished using the launchRS.sh script).
-| shutdownRS.sh | Shuts down the Replica Set and removes the data files. 
+| 1-launchRS.sh | Launches a multi-node replica set on your local machine
+| 2-checkRSstatus.sh | Connects to the local replica set and lists its primary and secondaries
+| 3-runInserts.sh | A node.js client that performs continual inserts using a specified writeConcern
+| 4-runQuery.sh | A node.js client that performs continual queries using a specified readPreference
+| 5-killMDBprocess.sh | Kills the specified Replica Set member
+| 6-intervention.(3/5)node.sh | Reconfigures the surviving data center to elect a new Primary and resume normal operations. Variants provided for both a 3- and 5-node deployment.
+| 8-restoreRSmember.sh | Relaunches a previously killed Replica Set member
+| restoreVotes.(3/5)node.sh | Restores the original vote configuration across the two Data Centers. Variants provided for both a 3- and 5-node deployment.
+| buildScenario.sh | Builds demo scenario 2 by launching a 5-node Replica Set with the corresponding vote and priority settings. (Note that building Scenario 1 is trivial and can be accomplished using the launchRS.sh script)
+| shutdownRS.sh | Shuts down the Replica Set and removes the data files
 
 # Prerequisites
 

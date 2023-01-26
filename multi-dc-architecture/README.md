@@ -36,5 +36,6 @@ The scripts provided in this folder can be used to simulate various architecture
 # Prerequisites
 
 - *launchRS* requires MongoDB to be installed (but not running) on your local machine.
+- mongosh (required by muliple scripts)
 - The two test clients require node.js. 
 

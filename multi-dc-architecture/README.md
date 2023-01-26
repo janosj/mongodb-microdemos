@@ -4,17 +4,17 @@ MongoDB Replica Sets provide automatic failover and high availability. 3-, 5-, a
 
 Automatic failover occurs when a majority of voting members collectively identify the failure of the active Primary. By distributing these voting members across geographically distributed sites, MongoDB systems can remain fully operational, even in the event of a data center outage. To preserve the voting majority in such an event, Primary members should be distributed across three data centers. The following diagram shows two such configurations, for 3- and 5-node replica sets. 
 
-<img src="images/HA-3-DCs.png" alt="HA across 3 data centers" width="800"/>
+<img src="images/HA-3-DCs.png" alt="HA across 3 data centers"/>
 
 If only two data centers are available, outside intervention is required to make the determination that a data center outage has occurred. Reconfiguration of the Replica Set will restore read/write operations in the surviving data center. This is shown in the following diagram.
 
-<img src="images/basic-resiliency-2-DCs.png" alt="Basic resiliency across 2 data centers" width="800"/>
+<img src="images/basic-resiliency-2-DCs.png" alt="Basic resiliency across 2 data centers"/>
 
 Additional replicas provide greater resiliency in the event of an outage, as shown below.
 
-<img src="images/greater-resiliency-2-DCs.png" alt="Greater resiliency across 2 data centers" width="800"/>
+<img src="images/greater-resiliency-2-DCs.png" alt="Greater resiliency across 2 data centers"/>
 
-<img src="images/failure-scenario-2-DCs.png" alt="Failure scenario across 2 data centers" width="800"/>
+<img src="images/failure-scenario-2-DCs.png" alt="Failure scenario across 2 data centers"/>
 
 # Demonstration Scripts
 
